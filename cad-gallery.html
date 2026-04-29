@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAD Gallery — Sach Saxena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F5F3EE;
+      --surface: #FFFFFF;
+      --ink: #141210;
+      --ink-2: #3D3A36;
+      --ink-3: #7A756E;
+      --accent: #1C3F6E;
+      --accent-2: #2D5F9E;
+      --accent-light: #E8EFF8;
+      --warm: #C4500A;
+      --border: #DDD9D2;
+      --rule: #E8E4DE;
+      --shadow-sm: 0 1px 8px rgba(20, 18, 16, 0.06);
+      --shadow: 0 3px 20px rgba(20, 18, 16, 0.09);
+      --shadow-lg: 0 8px 40px rgba(20, 18, 16, 0.13);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: rgba(245, 243, 238, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--warm);
+    }
+
+    .nav-back {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover {
+      color: var(--accent);
+    }
+
+    /* HERO HEADER */
+    .page-header {
+      padding: 100px 5% 48px;
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(28, 63, 110, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(28, 63, 110, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .header-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .header-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .header-title em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .header-desc {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: var(--ink-2);
+      font-weight: 300;
+      max-width: 520px;
+    }
+
+    .header-meta {
+      margin-top: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 0.3rem 0.75rem;
+      border-radius: 3px;
+    }
+
+    #image-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-3);
+    }
+
+    /* CONTROLS */
+    .controls {
+      padding: 1rem 5%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--rule);
+      background: var(--surface);
+    }
+
+    .view-btns {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .view-btn {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: var(--bg);
+      cursor: pointer;
+      color: var(--ink-3);
+      transition: all 0.2s;
+    }
+
+    .view-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .view-btn:hover:not(.active) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* GALLERY */
+    .gallery-wrap {
+      padding: 2rem 5% 4rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+      transition: all 0.3s;
+    }
+
+    .gallery-grid.list-view {
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+    }
+
+    /* Loading state */
+    .loading-state {
+      grid-column: 1 / -1;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 1.2rem;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    /* Error state */
+    .error-state {
+      grid-column: 1 / -1;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .error-state p {
+      color: var(--ink-2);
+      font-size: 0.9rem;
+    }
+
+    /* PHOTO CARD */
+    .photo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.22s, box-shadow 0.22s;
+      box-shadow: var(--shadow-sm);
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card-img-wrap {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--bg);
+      position: relative;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+
+    .photo-card:hover .card-img-wrap img {
+      transform: scale(1.05);
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(20, 18, 16, 0.5) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+
+    .photo-card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .overlay-hint {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .card-body {
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 80%;
+    }
+
+    .card-idx {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--ink-3);
+      flex-shrink: 0;
+    }
+
+    /* LIST VIEW card */
+    .gallery-grid.list-view .photo-card {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-radius: 8px;
+    }
+
+    .gallery-grid.list-view .card-img-wrap {
+      width: 100px;
+      height: 70px;
+      aspect-ratio: unset;
+      flex-shrink: 0;
+      border-radius: 0;
+    }
+
+    .gallery-grid.list-view .card-body {
+      flex: 1;
+      padding: 0 1.2rem;
+    }
+
+    .gallery-grid.list-view .card-name {
+      max-width: 100%;
+      font-size: 0.85rem;
+    }
+
+    .gallery-grid.list-view .card-overlay {
+      display: none;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(10, 8, 6, 0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lb-inner {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lb-img {
+      max-width: 85vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+    }
+
+    .lb-caption {
+      margin-top: 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+    }
+
+    .lb-close {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .lb-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .lb-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .lb-nav:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .lb-prev {
+      left: 1.5rem;
+    }
+
+    .lb-next {
+      right: 1.5rem;
+    }
+
+    .lb-counter {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* No results */
+    .no-results {
+      grid-column: 1/-1;
+      padding: 4rem;
+      text-align: center;
+      color: var(--ink-3);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 700px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 0.7rem;
+      }
+
+      .lb-nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Sach<span>.</span></a>
+    <a href="index.html" class="nav-back">← Back to Portfolio</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="header-label">02 / Projects · CAD &amp; Design</div>
+    <h1 class="header-title">CAD Models <em>Gallery</em></h1>
+    <p class="header-desc">SolidWorks models, engineering drawings, and practice assemblies — ATV components for SAE
+      eBaja 2026 and more.</p>
+    <div class="header-meta">
+      <span class="meta-badge">SolidWorks</span>
+      <span class="meta-badge">CATIA</span>
+      <span class="meta-badge">Siemens NX</span>
+      <span id="image-count" class="meta-badge"
+        style="background:var(--bg); color:var(--ink-3); border:1px solid var(--border);">Loading…</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="view-btns">
+      <button class="view-btn active" id="btn-grid" title="Grid view">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+      </button>
+      <button class="view-btn" id="btn-list" title="List view">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="8" y1="6" x2="21" y2="6" />
+          <line x1="8" y1="12" x2="21" y2="12" />
+          <line x1="8" y1="18" x2="21" y2="18" />
+          <line x1="3" y1="6" x2="3.01" y2="6" />
+          <line x1="3" y1="12" x2="3.01" y2="12" />
+          <line x1="3" y1="18" x2="3.01" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="gallery-wrap">
+    <div class="gallery-grid" id="gallery">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <div class="loading-text">Fetching models…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lb-close">✕</button>
+    <button class="lb-nav lb-prev" id="lb-prev">‹</button>
+    <button class="lb-nav lb-next" id="lb-next">›</button>
+    <div class="lb-inner">
+      <img class="lb-img" id="lb-img" src="" alt="">
+      <div class="lb-caption" id="lb-caption"></div>
+    </div>
+    <div class="lb-counter" id="lb-counter"></div>
+  </div>
+
+  <script>
+    const GITHUB_USER = 'Sach0411';
+    const GITHUB_REPO = 'Sach-github.io';
+    const FOLDER = 'CAD';
+    const API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER}`;
+    const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${FOLDER}/`;
+
+    const gallery = document.getElementById('gallery');
+    const imageCountEl = document.getElementById('image-count');
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCaption = document.getElementById('lb-caption');
+    const lbCounter = document.getElementById('lb-counter');
+
+    let allImages = [];
+    let filteredImages = [];
+    let currentIndex = 0;
+
+    const IMAGE_EXTS = /\.(jpe?g|png|gif|webp|svg|bmp)$/i;
+
+    async function fetchImages() {
+      try {
+        const res = await fetch(API_URL, { headers: { 'Authorization': 'token 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' } });
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+        const files = await res.json();
+        allImages = files
+          .filter(f => f.type === 'file' && IMAGE_EXTS.test(f.name))
+          .map(f => ({ name: f.name, url: RAW_BASE + encodeURIComponent(f.name) }));
+
+        if (allImages.length === 0) {
+          gallery.innerHTML = `<div class="error-state"><p>No images found in the <code>CAD</code> folder yet.</p></div>`;
+          imageCountEl.textContent = '0 models';
+          return;
+        }
+
+        imageCountEl.textContent = `${allImages.length} model${allImages.length !== 1 ? 's' : ''}`;
+        filteredImages = [...allImages];
+        renderGallery(filteredImages);
+      } catch (err) {
+        gallery.innerHTML = `<div class="error-state"><p>Could not load images. Check that the <code>CAD</code> folder exists in your repo.<br><small style="color:var(--ink-3)">${err.message}</small></p></div>`;
+        imageCountEl.textContent = 'Error';
+      }
+    }
+
+    function prettyName(filename) {
+      return filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+    }
+
+    function renderGallery(images) {
+      if (images.length === 0) {
+        gallery.innerHTML = `<div class="no-results">No models match your search</div>`;
+        return;
+      }
+      gallery.innerHTML = images.map((img, i) => `
+      <div class="photo-card" data-index="${i}" style="animation-delay:${Math.min(i * 40, 400)}ms">
+        <div class="card-img-wrap">
+          <img src="${img.url}" alt="${prettyName(img.name)}" loading="lazy">
+          <div class="card-overlay"><span class="overlay-hint">Click to expand</span></div>
+        </div>
+        <div class="card-body">
+          <span class="card-name">${prettyName(img.name)}</span>
+          <span class="card-idx">${String(i + 1).padStart(2, '0')}</span>
+        </div>
+      </div>
+    `).join('');
+
+      gallery.querySelectorAll('.photo-card').forEach(card => {
+        card.addEventListener('click', () => openLightbox(parseInt(card.dataset.index)));
+      });
+    }
+
+    // View toggle
+    document.getElementById('btn-grid').addEventListener('click', () => {
+      gallery.classList.remove('list-view');
+      document.getElementById('btn-grid').classList.add('active');
+      document.getElementById('btn-list').classList.remove('active');
+    });
+    document.getElementById('btn-list').addEventListener('click', () => {
+      gallery.classList.add('list-view');
+      document.getElementById('btn-list').classList.add('active');
+      document.getElementById('btn-grid').classList.remove('active');
+    });
+
+    // Lightbox
+    function openLightbox(index) {
+      currentIndex = index;
+      updateLightbox();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightbox() {
+      const img = filteredImages[currentIndex];
+      lbImg.src = img.url;
+      lbImg.alt = prettyName(img.name);
+      lbCaption.textContent = prettyName(img.name);
+      lbCounter.textContent = `${currentIndex + 1} / ${filteredImages.length}`;
+    }
+
+    document.getElementById('lb-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+    document.getElementById('lb-prev').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + filteredImages.length) % filteredImages.length;
+      updateLightbox();
+    });
+
+    document.getElementById('lb-next').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % filteredImages.length;
+      updateLightbox();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + filteredImages.length) % filteredImages.length; updateLightbox(); }
+      if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % filteredImages.length; updateLightbox(); }
+    });
+
+    fetchImages();
+  </script>
+</body>
+
+</html>
