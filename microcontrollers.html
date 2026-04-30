@@ -589,20 +589,9 @@
 
     for (const folder of folderCandidates) {
       try {
-        const CACHE_KEY = 'gh_cache_micro_' + key;
-        const CACHE_TTL = 60 * 60 * 1000;
-        const cached = localStorage.getItem(CACHE_KEY);
-        let files;
-        if (cached) {
-          const { data, ts } = JSON.parse(cached);
-          if (Date.now() - ts < CACHE_TTL) { files = data; }
-        }
-        if (!files) {
-          const res = await fetch(apiUrl(folder));
-          if (!res.ok) continue;
-          files = await res.json();
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ data: files, ts: Date.now() }));
-        }
+        const res = await fetch(apiUrl(folder), { headers: { 'Authorization': 'token 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' } });
+        if (!res.ok) continue; // try next candidate
+        const files = await res.json();
         imgs = files
           .filter(f => f.type === 'file' && IMAGE_EXTS.test(f.name))
           .map(f => ({ name: f.name, url: rawUrl(folder, f.name) }));
